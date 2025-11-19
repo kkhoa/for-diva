@@ -40,7 +40,7 @@
     z-index: 50;
   }
 
-  /* ------------------- Phong bì ------------------- */
+  /* ------------------- Envelope ------------------- */
   .flap {
     clip-path: polygon(0 0, 100% 0, 50% 50%);
     transform-origin: top;
@@ -54,7 +54,8 @@
     height: 100%;
     background: linear-gradient(to bottom, #ffd1e5, #ffb3d2);
     border-radius: 15px;
-    box-shadow: inset 0 5px 15px rgba(255, 255, 255, 0.5), 0 8px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: inset 0 5px 15px rgba(255, 255, 255, 0.5),
+      0 8px 20px rgba(0, 0, 0, 0.15);
     z-index: 10;
   }
 
@@ -62,7 +63,7 @@
     transform: rotateX(180deg);
   }
 
-  /* ------------------- Thư ------------------- */
+  /* ------------------- Letter ------------------- */
   .letter {
     transition: all 0.8s ease;
     transform: scale(0);
@@ -77,27 +78,8 @@
     transition-delay: 0.3s;
   }
 
-  /* ------------------- Text ------------------- */
-  .line span {
-    opacity: 0;
-    display: inline-block;
-      
-  }
-
-  span.emoji {
-    display: inline-block;
-    transform: translateY(0);
-    transition: transform 0.3s ease;
-  }
-
-  /* ------------------- Thanh cuộn custom ------------------- */
   .letter::-webkit-scrollbar {
     width: 8px;
-  }
-
-  .letter::-webkit-scrollbar-track {
-    background: #ffe6f0;
-    border-radius: 4px;
   }
 
   .letter::-webkit-scrollbar-thumb {
@@ -106,52 +88,91 @@
     border: 2px solid #ffe6f0;
   }
 
-  .letter::-webkit-scrollbar-thumb:hover {
-    background: #ff3385;
-  }
-
-  .letter {
-    scrollbar-width: thin;
-    scrollbar-color: #ff66b3 #ffe6f0;
-  }
-
-  /* ------------------- Envelope nhích sang trái ------------------- */
+  /* ------------------- Layout Wrapper ------------------- */
   .envelope-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    flex-direction: column;
+    /* mobile default */
+    gap: 20px;
     width: 100%;
-    max-width: 5xl;
-    height: 100vh;
-    transition: all 0.7s ease;
+    height: auto;
+    padding-top: 40px;
+    padding-bottom: 60px;
   }
 
-  .envelope-wrapper.open #envelope {
-    transform: translateX(-300px);
-    transition: transform 0.7s ease;
+  /* Tablet/Desktop: ảnh bên phải, thư bên trái */
+  @media (min-width: 768px) {
+    .envelope-wrapper {
+      flex-direction: row;
+      height: 100vh;
+      gap: 0;
+    }
+
+    .envelope-wrapper.open #envelope {
+      transform: translateX(-250px);
+    }
   }
 
-  /* ------------------- Ảnh bên phải ------------------- */
+  /* ------------------- Ảnh ------------------- */
   .image-container {
-    position: absolute;
-    right: -200px;
-    /* ẩn trước */
-    top: 50%;
-    transform: translateY(-50%) scale(1);
     opacity: 0;
-    width: auto;
-    max-width: 24rem;
+    transform: scale(1);
     transition: all 0.7s ease;
     z-index: 25;
+    max-width: 20rem;
   }
 
+  /* Khi mở thư */
   .envelope-wrapper.open #rightImage {
     opacity: 1;
-    transform: translateY(-50%) scale(1.5);
-    /* phóng to 150% */
-    right: 150px;
-    /* cách phong bì 100px */
+    transform: scale(1.2);
+  }
+
+  /* Desktop: ảnh bên phải */
+  @media (min-width: 768px) {
+    .image-container {
+      position: absolute;
+      right: -200px;
+      top: 50%;
+      transform: translateY(-50%) scale(1);
+    }
+
+    .envelope-wrapper.open #rightImage {
+      right: 120px;
+    }
+  }
+
+  /* Mobile: ảnh dưới thư, căn giữa */
+  @media (max-width: 767px) {
+    .image-container {
+      position: relative;
+      display: block;
+      right: 0 !important;
+      top: 0 !important;
+      transform: scale(1) !important;
+      margin-top: 10px;
+    }
+
+    .envelope-wrapper.open #rightImage {
+      position: relative;
+      transform: scale(1.05) !important;
+      opacity: 1;
+      margin-top: 15px;
+    }
+  }
+
+  /* ------------------- Text Typing ------------------- */
+  .line span {
+    opacity: 0;
+    display: inline-block;
+  }
+
+  .emoji {
+    display: inline-block;
+    transition: transform 0.3s ease;
   }
 </style>
 
